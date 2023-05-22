@@ -85,15 +85,6 @@ class pwlsmkr(object):
             if keyword != 'wordlist':
                 print(keyword + ': ' + str(self.props[keyword]))
 
-    def get_firstmid_name(self, setgender):
-        name = ''
-        if setgender:
-            name += names.get_first_name(gender=setgender)
-        else:
-            name += names.get_first_name()
-
-        return name
-
     def generate_names(self, amt, incmale=True, incfemale=True, incfirst=True, incmiddle=True, inclast=True):
         #Generate and return a list of names
 
@@ -108,8 +99,6 @@ class pwlsmkr(object):
         else:
             alternate_genders = True
             setgender = 'male'
-        #TO DO: No gender setting causes names to be generated with masculine first names and feminine middle names and vice versa
-
         
         #Generate names
         for x in range(0, amt):
@@ -117,11 +106,11 @@ class pwlsmkr(object):
             name = ''
 
             if incfirst:
-                name = self.get_firstmid_name(setgender)
+                name = names.get_first_name(gender=setgender)
             #Generate middle name based on arg
             if incmiddle:
                 while True:
-                    midname = self.get_firstmid_name(setgender)
+                    midname = names.get_first_name(gender=setgender)
                     if midname != name:
                         name += midname
                         break
@@ -140,7 +129,7 @@ class pwlsmkr(object):
 #Create argument parser
 parser = argparse.ArgumentParser(
     prog='pwlsmkr',
-    description='Generate a targeted bruteforce password list based on specified parameters. By An0m@ly, Cortana, and 9 beers'
+    description='Generate a targeted bruteforce password list based on specified parameters. By An0m@ly, Cortana, and 10 beers'
 )
 
 #Add arguments and descriptions
