@@ -3,13 +3,15 @@ import argparse
 #requires ntlk
 import nltk
 from nltk.corpus import words
-import names
+from mods.namegen import NameGen
 #for gh test, sorry im rusty af
-class pwlsmkr(object):
+class Pwlsmkr(object):
 
-    def __init__(self, args):
-
+    def __init__(self, name, args):
+        self.name = name
         self.props = {}
+
+        self.namegen = NameGen('hAI')
        
         for keyword in vars(args):
             if type(eval('args.' + keyword)) != str:
@@ -79,16 +81,18 @@ class pwlsmkr(object):
 
     def test(self):
         print('Initiating test...')
-        self.generate_names(42)
+        self.namegen.generate_names(42)
+        self.props['names'] = self.namegen.get_names_list()
+
         print('length of names list: ' + str(len(self.props['names'])))
         for keyword in self.props:
             if keyword != 'wordlist':
                 print(keyword + ': ' + str(self.props[keyword]))
 
     def generate_names(self, amt, incmale=True, incfemale=True, incfirst=True, incmiddle=True, inclast=True):
-        #Generate and return a list of names
+        #Generate and return a list of names, might be useful for a target that utilizes names in passwords
 
-        setgender = False
+        setgender = 'male'
         alternate_genders = False
         #Set gender based on args
         if not (incmale and incfemale):
@@ -98,7 +102,7 @@ class pwlsmkr(object):
                 setgender = 'female'
         else:
             alternate_genders = True
-            setgender = 'male'
+            
         
         #Generate names
         for x in range(0, amt):
@@ -153,4 +157,4 @@ parser.add_argument("-maxw", "--maximumwords", type=int, help="If using keywords
 args = parser.parse_args()
 
 #Run program
-a274269 = pwlsmkr(args)
+a274269 = Pwlsmkr('i', args)
