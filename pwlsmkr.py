@@ -22,7 +22,7 @@ class pwlsmkr(object):
                 #all else are true if 'y' or false if else
                 self.props[keyword] = eval('args.' + keyword) == 'y'
 
-        if self.props['dictionary'] == True:
+        if self.props['dictionary']:
            
             try:
                 self.props['wordlist'] = words.words()
@@ -31,13 +31,10 @@ class pwlsmkr(object):
                 self.props['wordlist'] = words.words()
             #requires ntlk.download() to get current list of all words
             
-            #TO DO: names are not included on NLTK. Find and incorporate function for names list >> import names >> 
             print('length of english word list: ' + str(len(self.props['wordlist'])))
-
-        #Define list of commonly used l33tsp3@k substitutions
         self.props['names'] = []
-        self.generate_names(42)
-        print('length of names list: ' + str(len(self.props['names'])))
+        #Define list of commonly used l33tsp3@k substitutions
+        
         self.leetsubs = {
             '0': ['o', 'O'],
             '1': ['I', 'i', 'l', '|', '!'],
@@ -82,6 +79,8 @@ class pwlsmkr(object):
 
     def test(self):
         print('Initiating test...')
+        self.generate_names(42)
+        print('length of names list: ' + str(len(self.props['names'])))
         for keyword in self.props:
             if keyword != 'wordlist':
                 print(keyword + ': ' + str(self.props[keyword]))
@@ -98,19 +97,20 @@ class pwlsmkr(object):
     def generate_names(self, amt, incmale=True, incfemale=True, incfirst=True, incmiddle=True, inclast=True):
         #Generate and return a list of names
 
-        #TO DO:
-                #generate list of all names TO DO: work on name generation
-                # name generation is exponentially long
-                # perhaps break first and last names down into individual functions
-
         setgender = False
+        alternate_genders = False
         #Set gender based on args
         if not (incmale and incfemale):
             if incmale:
                 setgender = 'male'
             else:
                 setgender = 'female'
+        else:
+            alternate_genders = True
+            setgender = 'male'
+        #TO DO: No gender setting causes names to be generated with masculine first names and feminine middle names and vice versa
 
+        
         #Generate names
         for x in range(0, amt):
             #Generate first name based on gender arg
@@ -131,11 +131,16 @@ class pwlsmkr(object):
 
             if not name in self.props['names']:
                 self.props['names'].append(name)
+                if alternate_genders:
+                    if setgender == 'male':
+                        setgender = 'female'
+                    else:
+                        setgender = 'male'
 
 #Create argument parser
 parser = argparse.ArgumentParser(
     prog='pwlsmkr',
-    description='Generate a targeted bruteforce password list based on specified parameters. By An0m@ly, Cortana, and 8 beers'
+    description='Generate a targeted bruteforce password list based on specified parameters. By An0m@ly, Cortana, and 9 beers'
 )
 
 #Add arguments and descriptions
