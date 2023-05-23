@@ -55,9 +55,9 @@ class Substitutor(object):
         charar = list(charstr)
         #get substitution data
         subcountar, combocount, allsubs = self.get_sub_data(charar)
-        self.sub_cycle(subcountar, allsubs)
-        #permutate = self.get_permutation([0,0,0,0], allsubs)
-        #print(permutate)
+        #self.sub_cycle(subcountar, allsubs)
+        permutate = self.get_permutation([1,0,0,0], allsubs)
+        print(permutate)
 
        # print(subar)
        # print(combocount)
@@ -93,6 +93,7 @@ class Substitutor(object):
     def get_permutation(self, current_subcount, allsubs):
         #Good as fuck
         permutation = ''
+        print(allsubs)
         #current subcount would be array, such as [0,0,0,0]
         for position in range(0, len(current_subcount)):
             value = current_subcount[position]
@@ -118,7 +119,7 @@ class Substitutor(object):
                 sublen = len(self.leetsubs[ch])
                 #Add each substituion item into substituion reference array
                 for item in self.leetsubs[ch]:
-                    subcharar.append(ch)
+                    subcharar.append(item)
             #add substituion array to array of substitutions XD this shit is confusing
             allsubs.append(subcharar)
 
