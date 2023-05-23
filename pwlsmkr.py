@@ -7,11 +7,10 @@ from mods.namegen import NameGen
 #for gh test, sorry im rusty af
 class Pwlsmkr(object):
 
-    def __init__(self, name, args):
-        self.name = name
+    def __init__(self, args):
         self.props = {}
 
-        self.namegen = NameGen('hAI')
+        self.namegen = NameGen()
        
         for keyword in vars(args):
             if type(eval('args.' + keyword)) != str:
@@ -33,54 +32,13 @@ class Pwlsmkr(object):
                 self.props['wordlist'] = words.words()
             #requires ntlk.download() to get current list of all words
             
-            print('length of english word list: ' + str(len(self.props['wordlist'])))
         self.props['names'] = []
-        #Define list of commonly used l33tsp3@k substitutions
-        
-        self.leetsubs = {
-            '0': ['o', 'O'],
-            '1': ['I', 'i', 'l', '|', '!'],
-            '2': ['S', 's'],
-            '3': ['E'],
-            #4
-            '5': ['s', 'S'],
-            '6': ['G'],
-            '7': ['T', 't'],
-            '8': ['B'],
-            '9': ['P'],
-            'a': ['@', '&'],
-            'b': ["8"],
-            'c': ['('],
-            'd': {'p', 'P'},
-            'e': ["3"],
-            #f
-            'g': ['6', '&'],
-            'h': ['#'],
-            'i': ['1'],
-            #j
-            #k
-            'l': ['1', '|', '!'],
-            #m
-            #n
-            'o': ["0", "()"],
-            'p': ['9'],
-            #q
-            #r
-            's': ["$", '5'],
-            't': ['7'],
-            #u
-            'v': ['\/'],
-            #w
-            'x': ['%', '*'],
-            #y
-            #z
-            'and': ['&'],
-        }
 
         self.test()
 
     def test(self):
         print('Initiating test...')
+        print('length of english word list: ' + str(len(self.props['wordlist'])))
         self.namegen.generate_names(42)
         self.props['names'] = self.namegen.get_names_list()
 
@@ -92,7 +50,7 @@ class Pwlsmkr(object):
 #Create argument parser
 parser = argparse.ArgumentParser(
     prog='pwlsmkr',
-    description='Generate a targeted bruteforce password list based on specified parameters. By An0m@ly, Cortana, and 11 beers'
+    description='Generate a targeted bruteforce password list based on specified parameters. By An0m@ly, Cortana, and 14 beers'
 )
 
 #Add arguments and descriptions
@@ -116,4 +74,4 @@ parser.add_argument("-maxw", "--maximumwords", type=int, help="If using keywords
 args = parser.parse_args()
 
 #Run program
-a274269 = Pwlsmkr('i', args)
+a274269 = Pwlsmkr(args)

@@ -2,14 +2,12 @@ import names
 
 class NameGen(object):
 
-    def __init__(self, name):
+    def __init__(self):
         print("Initializing NameGen object...")
-        #self.name = name
         self.props = {}
         self.props['names'] = []
         
     def get_names_list(self):
-        print(self.props['names'])
         return self.props['names']
     
     def generate_names(self, amt, incmale=True, incfemale=True, incfirst=True, incmiddle=True, inclast=True):
