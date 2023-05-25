@@ -117,8 +117,6 @@ class Substitutor(object):
         return permutation
     
     def write_permutation(self, permutation=str):
-        #permutation += '\n'
-        #ascperm = permutation.encode('ascii')
         self.output.writelines(permutation + '\n')
 
     def get_sub_data(self, charar=[]):
