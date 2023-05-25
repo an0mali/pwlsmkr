@@ -50,7 +50,7 @@ class Pwlsmkr(object):
 #Create argument parser
 parser = argparse.ArgumentParser(
     prog='pwlsmkr',
-    description='Generate a targeted bruteforce password list based on specified parameters. By An0m@ly, Cortana, and 14 beers'
+    description='Generate a targeted bruteforce password list based on specified parameters. By An0m@ly, Cortana, and 18 beers'
 )
 
 #Add arguments and descriptions
