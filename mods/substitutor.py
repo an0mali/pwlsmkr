@@ -55,9 +55,7 @@ class Substitutor(object):
         charar = list(charstr)
         #get substitution data
         subcountar, combocount, allsubs = self.get_sub_data(charar)
-        #self.sub_cycle(subcountar, allsubs)
-        permutate = self.get_permutation([1,0,0,0], allsubs)
-        print(permutate)
+        self.sub_cycle(subcountar, allsubs)
 
        # print(subar)
        # print(combocount)
@@ -69,40 +67,51 @@ class Substitutor(object):
         cycle_counter = []
         #always starts at 0 for each character, for 'test',             [0,0,0,0]
         #always ends at max subcountar for each character, for 'test'   [1,1,2,1]
-
+        term_length = len(subcountar)
         #Set up cycle counter
-        for x in range(0, len(subcountar)):
+        for x in range(0, term_length):
             cycle_counter.append(0)
 
-        cycle_position = 0
-        while cycle_position < len(subcountar):
-            if cycle_counter[cycle_position] > subcountar[cycle_position]:
-                if cycle_position +1 > len(cycle_counter) - 1:
-                    break
-                cycle_counter[cycle_position + 1] += 1
-                for x in range(0, cycle_position):
-                    cycle_counter[x] = 0
-                cycle_position = 0
-
+        while True: #should be fine
             permutation = self.get_permutation(cycle_counter, allsubs)
             permutations.append(permutation)
-            cycle_counter[cycle_position] += 1
+            
+            completed, cycle_counter = self.count_tick(cycle_counter, subcountar)
+            if completed:
+                break
+                #Cycle position issue - cycle position never advances
 
+        print(len(permutations))
         print(permutations)
+
+    def count_tick(self, cycle_counter=[], subcountar=[]):
+        
+        cycle_counter[0] += 1
+        for position in range(0, len(cycle_counter)):
+            if cycle_counter[position] > subcountar[position]:
+                if position + 1 == len(cycle_counter):
+                    return True, cycle_counter
+                cycle_counter[position + 1] += 1
+                cycle_counter[position] = 0
+                for zero_position in range(0, position):
+                    cycle_counter[zero_position] = 0
+        return False, cycle_counter
+
+
 
     def get_permutation(self, current_subcount, allsubs):
         #Good as fuck
         permutation = ''
-        print(allsubs)
+        #print(allsubs)
         #current subcount would be array, such as [0,0,0,0]
         for position in range(0, len(current_subcount)):
             value = current_subcount[position]
             ch = allsubs[position][value]
             permutation += ch
-
         return permutation
 
     def get_sub_data(self, charar=[]):
+        #This seems fine
         #convert string to char array
         combocount = 1
         #create array for keeping track of possible substitutions
@@ -126,7 +135,7 @@ class Substitutor(object):
             combocount *= 1 + sublen
             #add length of substituion array to reference counter
             subar.append(sublen)
-
+        print(subar)
         return subar, combocount, allsubs
 
         #create an array of each substitution maximums
