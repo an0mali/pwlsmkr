@@ -1,10 +1,14 @@
 
+import os
 class Substitutor(object):
 
     def __init__(self):
-
-        #Define list of commonly used l33tsp3@k substitutions
         
+        #Define list of commonly used l33tsp3@k substitutions
+        #if not os.path.exists('output.txt'):
+        file = open('output.txt', 'w')
+        file.close()
+        self.output = open("output.txt", 'r+')
         self.leetsubs = {
             '0': ['o', 'O'],
             '1': ['I', 'i', 'l', '|', '!'],
@@ -24,7 +28,7 @@ class Substitutor(object):
             #f
             'g': ['6', '&'],
             'h': ['#'],
-            'i': ['1'],
+            'i': ['1', '|'],
             #j
             #k
             'l': ['1', '|', '!'],
@@ -46,9 +50,10 @@ class Substitutor(object):
         }
 
         self.test()
+        self.output.close()
         # test > t3st > te$t > t3$t > t
     def test(self):
-        self.substitute('test')
+        self.substitute('testthisshitbitch')
 
     def substitute(self, charstr):
         #convert string to array
@@ -63,7 +68,7 @@ class Substitutor(object):
     def sub_cycle(self, subcountar=[], allsubs=[]):
         #This is fucked tho, shit is kind of confusing if you think about it
         #all subs contain array of subs with allsubs[string position][sub character position]
-        permutations = []
+       #permutations = []
         cycle_counter = []
         #always starts at 0 for each character, for 'test',             [0,0,0,0]
         #always ends at max subcountar for each character, for 'test'   [1,1,2,1]
@@ -72,20 +77,21 @@ class Substitutor(object):
         for x in range(0, term_length):
             cycle_counter.append(0)
 
-        while True: #should be fine
+        while True:
             permutation = self.get_permutation(cycle_counter, allsubs)
-            permutations.append(permutation)
+            #permutations.append(permutation)
+            self.write_permutation(permutation)
             
             completed, cycle_counter = self.count_tick(cycle_counter, subcountar)
             if completed:
                 break
-                #Cycle position issue - cycle position never advances
-
-        print(len(permutations))
-        print(permutations)
+        #print(permutations)
+        print(allsubs)
+        #print(len(permutations))
+        
 
     def count_tick(self, cycle_counter=[], subcountar=[]):
-        
+        #Ticks 
         cycle_counter[0] += 1
         for position in range(0, len(cycle_counter)):
             if cycle_counter[position] > subcountar[position]:
@@ -109,6 +115,11 @@ class Substitutor(object):
             ch = allsubs[position][value]
             permutation += ch
         return permutation
+    
+    def write_permutation(self, permutation=str):
+        #permutation += '\n'
+        #ascperm = permutation.encode('ascii')
+        self.output.writelines(permutation + '\n')
 
     def get_sub_data(self, charar=[]):
         #This seems fine
@@ -135,6 +146,7 @@ class Substitutor(object):
             combocount *= 1 + sublen
             #add length of substituion array to reference counter
             subar.append(sublen)
+        print(combocount)
         print(subar)
         return subar, combocount, allsubs
 
